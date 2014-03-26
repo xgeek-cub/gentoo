@@ -1,0 +1,176 @@
+
+#--------------------------------------+
+#FVWM Config ~/.fvwm2rc on 2.6 in 2013 |
+#--------------------------------------+
+#FVWM CONFIG MARK I [WED 2 OCT 2013]   |
+#--------------------------------------+
+
+#**************************************+
+#1.> Defining Environment VariableS    * 
+#**************************************+
+
+SetEnv fvwm_img $[FVWM_USERDIR]/images
+SetEnv fvwm_icon $[FVWM_USERDIR]/icons
+SetEnv fvwm_wallpapers $[FVWM_USERDIR]/wallpaper
+SetEnv fvwm_script $./scripts
+
+#***************************************+
+#1.a> Setting the default programs:     *
+#***************************************+
+
+SetEnv fvwm_webbrowser /user/bin/opera-next
+SetEnv fvwm_term /user/bin/lilyterm
+SetEnv fvwm_media_player /usr/bin/mpv
+SetEnv fvwm_video_player /usr/bin/mpv
+
+#***************************************+
+#2.> Setting The Imge Path              *
+#***************************************+
+
+ImagePath $[fvwm_icon]:$[fvwm_icon];.png:$[fvwm_icon];.svg:+
+
+
+#***************************************+
+#3.>Setting Virtual Desktops            *
+#***************************************+
+
+DesktopSize 1x1
+DesktopName 0 [I]
+DesktopName 1 [II]
+DesktopName 2 [III]
+EdgeThickness 0
+
+#*****************************************+
+#4.> Setting The Mouse and Focus Behaviour*
+#*****************************************+
+
+ClickTime 300
+MoveThresshold 3
+Style * FPClickToFocus, FPClickDecorToFocus, FPClickIconToFocus, FPGrabFocusTransient
+
+#*******************************************************+
+#4.a>Special key words for behaviour of default desktop *
+#*******************************************************+
+
+EwmhBaseStruts 3 3 3 35
+
+#*********************************************************
+#*Problem with Modifiers such as CAPS-LOCK SCROLL-LOCK ...
+IgnoreModifiers L25
+#*********************************************************
+
+
+#**************************************
+#5.> Setting Global Styles and Options
+#**************************************
+
+WindowFont "xft:DejaVu Sans:pixelsize=11:encoding=iso10646-1"
+Style * StippledTitle
+
+#***************************
+#6.> Setting Programs Styles
+#***************************
+
+
+
+##########
+#7.> Setting Startup FUNCTIONS
+##########
+
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Module FvwmTaskBar
++ I Module FvwmPager 0 2
++ I Module FvwmButtons MyButtons
++ I Test (Init) Exec exec feh --bg-scale /home/avalon/.fvwm/wallpaper/bg.jpg
++ I Test (Init) Exec exec xset fp+ /usr/share/fonts/terminus
++ I Test (Init) Exec exec xset fp+ /usr/local/share/fonts
++ I Test (Init) Exec exec xrdb -merge ~/.Xresources
++ I Test (Init) Exec exec numlockx &
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Test (Init) Exec exec lilyterm
+
+DestroyFunc FvwmDeleteOrDestroy
+AddToFunc FvwmDeleteOrDestroy
++ H Nop
++ M Nop
++ C Delete
++ D Destroy
+
+
+
+
+
+
+
+#******************************
+*FvwmPager: MiniIcons
+
+
+
+*FvwmPager: Colorset *         2
+*FvwmPager: HilightColorset *  3
+*FvwmPager: WindowColorsets    4 5
+
+Style FvwmPager NoTitle, !Borders, !handles, FixedPosition, !Iconifiable, WindowListSkip,
+
+Style FvwmButtons !Title, NeverFocus, !Iconifiable, !Maximizable, !Closable, Sticky, WindowListSkip, CirculateSkipIcon, IconBox,
+
+Style * !Sticky
+Style FvwmTaskBar Sticky
+
+
+
+
+Style * UseDecor MyWDecor
+
+AddToDecor MyWDecor
++ AddButtonStyle 1 Vector 7 70x15@0 30x55@1 50x55@0 40x85@1 80x45@0 60x45@1 70x15@0
++ AddButtonStyle 2 Vector 17 20x20@1 30x20@1 50x40@1 70x20@1 80x20@1 80x30@0 60x50@0 80x70@1 80x80@0 70x80@0 50x60@0 30x80@0 20x80@0 20x70@0 40x50@1 20x30@0 20x20@1
++ AddButtonStyle 4 Vector 5 25x25@1 25x75@1 75x75@0 75x25@0 25x25@1
++ AddButtonStyle 6 Vector 10 40x55@1 40x80@0 15x80@0 15x55@1 40x55@1 30x55@1 30x30@1 70x30@1 70x70@1 45x70@1
+
++ ButtonStyle	  4 - Clear MWMDecorMax
++ ButtonStyle	  6 - Clear MWMDecorMin
++ TitleStyle Centered Height 23
+
+Mouse 0 2       A       FvwmDeleteOrDestroy
+Mouse 0 4       A       FuncFvwmMaximize
+Mouse 0 6       A       Iconify
+
+
+AddToMenu Window-Ops
++       "(Un)Stick" Stick
++       "Move" Move
++       "Resize" Resize
++       "Layer Up" LayerUP
++       "Iconify (CM-i)" Iconify
++       "Layer Down" LayerDOWN
++       "Maximize" Maximize-Func
++       "Close" Close
++       "Delete" Delete
++		"Destroy" Destroy
++		"Identify" FvwmIdent
++       "" Nop
++       "change page" Popup change-page
++       "" Nop
++       "end" PopUp end-window
+
+Mouse 0 1       A       Menu Window-Ops Nop
+Style FvwmIdent !Title,
+
+DestroyFunc FuncFvwmMaximize
+AddToFunc   FuncFvwmMaximize
++ H Nop
++ M Nop
++ C Maximize $0 $1
+
+DestroyFunc FvwmDeleteOrDestroy
+AddToFunc   FvwmDeleteOrDestroy
++ H Nop
++ M Nop
++ C Delete
++ D Destroy
+
+****
