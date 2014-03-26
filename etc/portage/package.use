@@ -1,0 +1,4 @@
+x11-wm/fvwm	perl bidi lock
+media-video/libav threads network
+x11-themes/light-themes gtk3
+media-libs/harfbuzz icu
